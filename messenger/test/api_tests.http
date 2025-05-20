@@ -1,0 +1,40 @@
+### Create a new user
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "username": "test_user",
+    "password": "test_password"
+}
+
+### Create a new chat
+POST http://localhost:8080/api/chats
+Content-Type: application/json
+
+{
+    "name": "Test Chat",
+    "is_private": false
+}
+
+### Get messages from General Chat (chat_id: 1)
+GET http://localhost:8080/api/chats/1/messages
+
+### Get messages from Private Chat (chat_id: 2)
+GET http://localhost:8080/api/chats/2/messages
+
+### Get John's chats (user_id: 1)
+GET http://localhost:8080/api/users/1/chats
+
+### Get Jane's chats (user_id: 2)
+GET http://localhost:8080/api/users/2/chats
+
+### Get user profile
+GET http://localhost:8080/api/users/1/profile
+
+### Update user profile
+PUT http://localhost:8080/api/users/1/profile
+Content-Type: application/json
+
+{
+    "username": "john_doe"
+} 

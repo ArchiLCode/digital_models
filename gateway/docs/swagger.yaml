@@ -1,0 +1,570 @@
+basePath: /
+definitions:
+  models.ErrorResponse:
+    properties:
+      error:
+        description: |-
+          Error message
+          example: Invalid input
+        type: string
+    type: object
+  models.GetProfileResponse:
+    properties:
+      avatar_url:
+        description: |-
+          URL to the user's avatar
+          example: https://example.com/avatar.jpg
+        example: https://example.com/avatar.jpg
+        type: string
+      chest_size:
+        description: |-
+          The chest size of the user in centimeters
+          example: 95
+        example: 95
+        type: integer
+      city:
+        description: |-
+          The city where the user lives
+          example: New York
+        example: New York
+        type: string
+      date_of_birth:
+        description: |-
+          The date of birth of the user
+          example: 1990-01-01T00:00:00Z
+        example: "1990-01-01T00:00:00Z"
+        type: string
+      height:
+        description: |-
+          The height of the user in centimeters
+          example: 180
+        example: 180
+        type: integer
+      hip_size:
+        description: |-
+          The hip size of the user in centimeters
+          example: 90
+        example: 90
+        type: integer
+      last_name:
+        description: |-
+          The last name of the user
+          example: Doe
+        example: Doe
+        type: string
+      name:
+        description: |-
+          The first name of the user
+          example: John
+        example: John
+        type: string
+      photos:
+        description: |-
+          List of URLs to the user's photos
+          example: ["https://example.com/photo1.jpg", "https://example.com/photo2.jpg"]
+        example:
+        - https://example.com/photo1.jpg
+        - https://example.com/photo2.jpg
+        items:
+          type: string
+        type: array
+      sex:
+        description: |-
+          The gender of the user
+          example: male
+        example: male
+        type: string
+      waist_size:
+        description: |-
+          The waist size of the user in centimeters
+          example: 80
+        example: 80
+        type: integer
+      weight:
+        description: |-
+          The weight of the user in kilograms
+          example: 75
+        example: 75
+        type: integer
+    type: object
+  models.LoginRequest:
+    properties:
+      app_id:
+        description: |-
+          AppID id application
+          example: 1
+        example: 1
+        type: integer
+      email:
+        description: |-
+          Email of the user
+          example: john.doe@example.com
+        example: john.doe@example.com
+        type: string
+      password:
+        description: |-
+          Password of the user
+          example: secure_password
+        example: secure_password
+        type: string
+    type: object
+  models.LoginResponse:
+    properties:
+      access_token:
+        description: |-
+          Access token for the user
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      refresh_token:
+        description: |-
+          Refresh token for obtaining a new access token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...
+        type: string
+    type: object
+  models.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        description: |-
+          Refresh token for obtaining a new access token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...
+        type: string
+    type: object
+  models.RefreshTokenResponse:
+    properties:
+      access_token:
+        description: |-
+          New access token for the user
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      new_refresh_token:
+        description: |-
+          New refresh token for obtaining another access token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...
+        type: string
+    type: object
+  models.RegisterRequest:
+    properties:
+      email:
+        description: |-
+          Email of the user
+          example: john.doe@example.com
+        example: john.doe@example.com
+        type: string
+      goal:
+        description: |-
+          Goal of the user
+          example: model
+        example: model
+        type: string
+      last_name:
+        description: |-
+          Last name of the user
+          example: Doe
+        example: Doe
+        type: string
+      name:
+        description: |-
+          Name of the user
+          example: Joe
+        example: Joe
+        type: string
+      password:
+        description: |-
+          Password of the user
+          example: secure_password
+        example: secure_password
+        type: string
+    type: object
+  models.RegisterResponse:
+    properties:
+      user_id:
+        description: |-
+          ID of the newly created user
+          example: 123
+        example: "123"
+        type: string
+    type: object
+  models.SessionResponse:
+    properties:
+      goal:
+        description: |-
+          Goal of the user
+          example: model
+        example: model
+        type: string
+      is_admin:
+        description: |-
+          IsAdmin
+          example: false
+        example: false
+        type: boolean
+      last_name:
+        description: |-
+          Last name of the user
+          example: Doe
+        example: Doe
+        type: string
+      name:
+        description: |-
+          Name of the user
+          example: Joe
+        example: Joe
+        type: string
+      user_id:
+        description: |-
+          ID of the newly created user
+          example: 123
+        example: "123"
+        type: string
+    type: object
+  models.UpdateProfileRequest:
+    properties:
+      avatar_url:
+        description: |-
+          URL to the user's avatar
+          example: https://example.com/avatar.jpg
+        example: https://example.com/avatar.jpg
+        type: string
+      chest_size:
+        description: |-
+          The chest size of the user in centimeters
+          example: 95
+        example: 95
+        type: integer
+      city:
+        description: |-
+          The city where the user lives
+          example: New York
+        example: New York
+        type: string
+      date_of_birth:
+        description: |-
+          The date of birth of the user
+          example: 1990-01-01T00:00:00Z
+        example: "1990-01-01T00:00:00Z"
+        type: string
+      height:
+        description: |-
+          The height of the user in centimeters
+          example: 180
+        example: 180
+        type: integer
+      hip_size:
+        description: |-
+          The hip size of the user in centimeters
+          example: 90
+        example: 90
+        type: integer
+      last_name:
+        description: |-
+          The last name of the user
+          example: Doe
+        example: Doe
+        type: string
+      name:
+        description: |-
+          The first name of the user
+          example: John
+        example: John
+        type: string
+      photos:
+        description: |-
+          List of URLs to the user's photos
+          example: ["https://example.com/photo1.jpg", "https://example.com/photo2.jpg"]
+        example:
+        - https://example.com/photo1.jpg
+        - https://example.com/photo2.jpg
+        items:
+          type: string
+        type: array
+      sex:
+        description: |-
+          The gender of the user
+          example: male
+        example: male
+        type: string
+      user_id:
+        description: |-
+          ID of the newly created user
+          example: 123
+        example: "123"
+        type: string
+      waist_size:
+        description: |-
+          The waist size of the user in centimeters
+          example: 80
+        example: 80
+        type: integer
+      weight:
+        description: |-
+          The weight of the user in kilograms
+          example: 75
+        example: 75
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: GATEWAY for models site application
+  title: APP FOR MODELS API
+  version: "1.0"
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns an access token by calling the
+        gRPC service.
+      parameters:
+      - description: Login credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Login a user
+      tags:
+      - Auth
+  /api/auth/logout:
+    get:
+      consumes:
+      - application/json
+      description: Invalidates the user's refresh token by calling the gRPC service.
+      parameters:
+      - default: Bearer <token>
+        description: Access Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: User logged out successfully
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Logout user
+      tags:
+      - Auth
+  /api/auth/refresh-token:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges a refresh token for a new access token by calling the
+        gRPC service.
+      parameters:
+      - description: Refresh token stored in a cookie
+        in: body
+        name: refresh_token
+        required: true
+        schema:
+          $ref: '#/definitions/models.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RefreshTokenResponse'
+        "401":
+          description: Invalid refresh token
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Refresh user access token
+      tags:
+      - Auth
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user account by calling the gRPC service.
+      parameters:
+      - description: Registration data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Register a new user
+      tags:
+      - Auth
+  /api/auth/session:
+    get:
+      consumes:
+      - application/json
+      description: Invalidates the user's refresh token by calling the gRPC service.
+      parameters:
+      - description: Access token in the format 'Bearer <token>'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SessionResponse'
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Session info about use
+      tags:
+      - Auth
+  /api/profile:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет профиль пользователя по его ID.
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешное удаление профиля
+        "400":
+          description: Неверный запрос (некорректный user_id)
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Удаление профиля пользователя
+      tags:
+      - profile
+    get:
+      consumes:
+      - application/json
+      description: Returns the profile information for a user by their ID.
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/models.GetProfileResponse'
+        "400":
+          description: Invalid user ID
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get profile by ID
+      tags:
+      - profile
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о профиле пользователя по его ID.
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: Данные для обновления профиля
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешное обновление профиля
+        "400":
+          description: Неверный запрос (некорректный user_id или тело запроса)
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Обновление профиля пользователя
+      tags:
+      - profile
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

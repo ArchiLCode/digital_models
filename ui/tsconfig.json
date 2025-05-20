@@ -1,0 +1,6 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": ["@sidebase/nuxt-auth", "vite/client", "nuxt"]
+  }
+}

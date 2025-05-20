@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  photo-upload-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: photo-upload-service
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    environment:
+      - GIN_MODE=release
+      - UPLOAD_FOLDER=../ui/public/uploads
+      - MAX_FILE_SIZE=16777216
+      - SERVER_PORT=:8080
+      - ALLOWED_MIME_TYPES=image/jpeg,image/png,image/gif,image/bmp,image/webp

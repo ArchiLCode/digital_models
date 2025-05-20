@@ -1,0 +1,158 @@
+version: '3'
+
+volumes:
+  postgres_volume:
+  profile_postgres_volume:
+
+services:
+  pg:
+    image: postgres:14-alpine3.17
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prof_db:
+    image: postgres:14-alpine3.17
+    environment:
+      - POSTGRES_DB=${PROFILE_POSTGRES_DB}
+      - POSTGRES_USER=${PROFILE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PROFILE_POSTGRES_PASSWORD}
+    ports:
+      - '5433:5432'
+    volumes:
+      - profile_postgres_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  photo-upload-service:
+    build:
+      context: ./upload_file
+      dockerfile: Dockerfile
+    container_name: photo-upload-service
+    ports:
+      - '8081:8081'
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    environment:
+      - GIN_MODE=release
+      - UPLOAD_FOLDER=/app/uploads
+      - MAX_FILE_SIZE=16777216
+      - SERVER_PORT=:8081
+      - ALLOWED_MIME_TYPES=image/jpeg,image/png,image/gif,image/bmp,image/webp
+
+  app:
+    build:
+      context: ./sso
+      dockerfile: Dockerfile
+    ports:
+      - '44044:44044'
+    depends_on:
+      pg:
+        condition: service_healthy
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
+      - CONFIG_PATH=${CONFIG_PATH}
+    env_file:
+      - ./.env
+    volumes:
+      - ./.env:/app/.env
+      - ./sso/config:/app/config
+
+  profile:
+    build:
+      context: ./profile
+      dockerfile: Dockerfile
+    ports:
+      - '44045:44045'
+    depends_on:
+      prof_db:
+        condition: service_healthy
+    environment:
+      - POSTGRES_DB=${PROFILE_POSTGRES_DB}
+      - POSTGRES_USER=${PROFILE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PROFILE_POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${PROFILE_POSTGRES_HOST}
+      - POSTGRES_PORT=${PROFILE_POSTGRES_PORT}
+      - POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
+      - CONFIG_PATH=${CONFIG_PATH}
+    env_file:
+      - ./.env
+    volumes:
+      - ./.env:/app/.env
+      - ./profile/config:/app/config
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      app:
+        condition: service_started
+    environment:
+      - APP_HOST=app
+      - APP_PORT=44044
+    volumes:
+      - ./.env:/app/.env
+  nuxt-app:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./uploads:/app/public/uploads
+      - /app/node_modules
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-static
+    ports:
+      - '8082:8082'
+    volumes:
+      - ./uploads:/uploads:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+
+  messenger:
+    build:
+      context: ./messenger
+      dockerfile: Dockerfile
+    ports:
+      - '${SERVER_PORT}:${SERVER_PORT}'
+    depends_on:
+      pg:
+        condition: service_healthy
+    environment:
+      - DB_HOST=pg # изменено с postgres на pg, чтобы соответствовать имени сервиса
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - SERVER_PORT=${SERVER_PORT}
+    networks:
+      - default # используем стандартную сеть или можно добавить свою
+    restart: unless-stopped

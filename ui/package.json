@@ -1,0 +1,28 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/types": "^2.18.1",
+    "@nuxtjs/i18n": "^9.1.1",
+    "@sidebase/nuxt-auth": "latest",
+    "inputmask": "^5.0.9",
+    "vue": "latest",
+    "vue-awesome-paginate": "^1.2.0",
+    "vue-router": "latest",
+    "vuedraggable": "^2.24.3"
+  },
+  "devDependencies": {
+    "@types/inputmask": "^5.0.7",
+    "nuxt": "^3.15.4",
+    "sass-embedded": "^1.85.0"
+  }
+}

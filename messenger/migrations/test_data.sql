@@ -1,0 +1,31 @@
+-- -- Insert test users
+-- INSERT INTO users (username, password_hash) VALUES
+--     ('john_doe', '$2a$10$1234567890123456789012'), -- user_id: 1
+--     ('jane_smith', '$2a$10$abcdefghijklmnopqrstuv'), -- user_id: 2
+--     ('bob_wilson', '$2a$10$zyxwvutsrqponmlkjihgfe'); -- user_id: 3
+
+-- -- Insert test chats
+-- INSERT INTO chats (name, is_private) VALUES
+--     ('General Chat', false), -- chat_id: 1
+--     ('John and Jane Private', true), -- chat_id: 2
+--     ('Development Team', false); -- chat_id: 3
+
+-- -- Add users to chats
+-- INSERT INTO chat_participants (chat_id, user_id) VALUES
+--     (1, 1), -- John in General Chat
+--     (1, 2), -- Jane in General Chat
+--     (1, 3), -- Bob in General Chat
+--     (2, 1), -- John in private chat
+--     (2, 2), -- Jane in private chat
+--     (3, 1), -- John in Development Team
+--     (3, 3); -- Bob in Development Team
+
+-- -- Insert test messages
+-- INSERT INTO messages (chat_id, user_id, content) VALUES
+--     (1, 1, 'Hello everyone! Welcome to the General Chat!'),
+--     (1, 2, 'Hi John! Thanks for creating this chat.'),
+--     (1, 3, 'Great to be here!'),
+--     (2, 1, 'Hi Jane, this is a private chat between us.'),
+--     (2, 2, 'Perfect, now we can discuss our project privately.'),
+--     (3, 1, 'Welcome to the Development Team chat!'),
+--     (3, 3, 'Looking forward to working with you all!'); 

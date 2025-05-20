@@ -1,0 +1,693 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "GATEWAY for models site application",
+        "title": "APP FOR MODELS API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "description": "Authenticates a user and returns an access token by calling the gRPC service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login a user",
+                "parameters": [
+                    {
+                        "description": "Login credentials",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Invalidates the user's refresh token by calling the gRPC service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Access Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User logged out successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/refresh-token": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Exchanges a refresh token for a new access token by calling the gRPC service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh user access token",
+                "parameters": [
+                    {
+                        "description": "Refresh token stored in a cookie",
+                        "name": "refresh_token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RefreshTokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.RefreshTokenResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid refresh token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "description": "Creates a new user account by calling the gRPC service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "parameters": [
+                    {
+                        "description": "Registration data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/session": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Invalidates the user's refresh token by calling the gRPC service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Session info about use",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access token in the format 'Bearer \u003ctoken\u003e'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SessionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Returns the profile information for a user by their ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Get profile by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetProfileResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Обновляет информацию о профиле пользователя по его ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Обновление профиля пользователя",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Данные для обновления профиля",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateProfileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное обновление профиля"
+                    },
+                    "400": {
+                        "description": "Неверный запрос (некорректный user_id или тело запроса)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Удаляет профиль пользователя по его ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Удаление профиля пользователя",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное удаление профиля"
+                    },
+                    "400": {
+                        "description": "Неверный запрос (некорректный user_id)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "description": "Error message\nexample: Invalid input",
+                    "type": "string"
+                }
+            }
+        },
+        "models.GetProfileResponse": {
+            "type": "object",
+            "properties": {
+                "avatar_url": {
+                    "description": "URL to the user's avatar\nexample: https://example.com/avatar.jpg",
+                    "type": "string",
+                    "example": "https://example.com/avatar.jpg"
+                },
+                "chest_size": {
+                    "description": "The chest size of the user in centimeters\nexample: 95",
+                    "type": "integer",
+                    "example": 95
+                },
+                "city": {
+                    "description": "The city where the user lives\nexample: New York",
+                    "type": "string",
+                    "example": "New York"
+                },
+                "date_of_birth": {
+                    "description": "The date of birth of the user\nexample: 1990-01-01T00:00:00Z",
+                    "type": "string",
+                    "example": "1990-01-01T00:00:00Z"
+                },
+                "height": {
+                    "description": "The height of the user in centimeters\nexample: 180",
+                    "type": "integer",
+                    "example": 180
+                },
+                "hip_size": {
+                    "description": "The hip size of the user in centimeters\nexample: 90",
+                    "type": "integer",
+                    "example": 90
+                },
+                "last_name": {
+                    "description": "The last name of the user\nexample: Doe",
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "name": {
+                    "description": "The first name of the user\nexample: John",
+                    "type": "string",
+                    "example": "John"
+                },
+                "photos": {
+                    "description": "List of URLs to the user's photos\nexample: [\"https://example.com/photo1.jpg\", \"https://example.com/photo2.jpg\"]",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "https://example.com/photo1.jpg",
+                        "https://example.com/photo2.jpg"
+                    ]
+                },
+                "sex": {
+                    "description": "The gender of the user\nexample: male",
+                    "type": "string",
+                    "example": "male"
+                },
+                "waist_size": {
+                    "description": "The waist size of the user in centimeters\nexample: 80",
+                    "type": "integer",
+                    "example": 80
+                },
+                "weight": {
+                    "description": "The weight of the user in kilograms\nexample: 75",
+                    "type": "integer",
+                    "example": 75
+                }
+            }
+        },
+        "models.LoginRequest": {
+            "type": "object",
+            "properties": {
+                "app_id": {
+                    "description": "AppID id application\nexample: 1",
+                    "type": "integer",
+                    "example": 1
+                },
+                "email": {
+                    "description": "Email of the user\nexample: john.doe@example.com",
+                    "type": "string",
+                    "example": "john.doe@example.com"
+                },
+                "password": {
+                    "description": "Password of the user\nexample: secure_password",
+                    "type": "string",
+                    "example": "secure_password"
+                }
+            }
+        },
+        "models.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "description": "Access token for the user\nexample: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                },
+                "refresh_token": {
+                    "description": "Refresh token for obtaining a new access token\nexample: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9..."
+                }
+            }
+        },
+        "models.RefreshTokenRequest": {
+            "type": "object",
+            "properties": {
+                "refresh_token": {
+                    "description": "Refresh token for obtaining a new access token\nexample: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9..."
+                }
+            }
+        },
+        "models.RefreshTokenResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "description": "New access token for the user\nexample: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                },
+                "new_refresh_token": {
+                    "description": "New refresh token for obtaining another access token\nexample: eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9...",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IlJXTiJ9..."
+                }
+            }
+        },
+        "models.RegisterRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "Email of the user\nexample: john.doe@example.com",
+                    "type": "string",
+                    "example": "john.doe@example.com"
+                },
+                "goal": {
+                    "description": "Goal of the user\nexample: model",
+                    "type": "string",
+                    "example": "model"
+                },
+                "last_name": {
+                    "description": "Last name of the user\nexample: Doe",
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "name": {
+                    "description": "Name of the user\nexample: Joe",
+                    "type": "string",
+                    "example": "Joe"
+                },
+                "password": {
+                    "description": "Password of the user\nexample: secure_password",
+                    "type": "string",
+                    "example": "secure_password"
+                }
+            }
+        },
+        "models.RegisterResponse": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "description": "ID of the newly created user\nexample: 123",
+                    "type": "string",
+                    "example": "123"
+                }
+            }
+        },
+        "models.SessionResponse": {
+            "type": "object",
+            "properties": {
+                "goal": {
+                    "description": "Goal of the user\nexample: model",
+                    "type": "string",
+                    "example": "model"
+                },
+                "is_admin": {
+                    "description": "IsAdmin\nexample: false",
+                    "type": "boolean",
+                    "example": false
+                },
+                "last_name": {
+                    "description": "Last name of the user\nexample: Doe",
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "name": {
+                    "description": "Name of the user\nexample: Joe",
+                    "type": "string",
+                    "example": "Joe"
+                },
+                "user_id": {
+                    "description": "ID of the newly created user\nexample: 123",
+                    "type": "string",
+                    "example": "123"
+                }
+            }
+        },
+        "models.UpdateProfileRequest": {
+            "type": "object",
+            "properties": {
+                "avatar_url": {
+                    "description": "URL to the user's avatar\nexample: https://example.com/avatar.jpg",
+                    "type": "string",
+                    "example": "https://example.com/avatar.jpg"
+                },
+                "chest_size": {
+                    "description": "The chest size of the user in centimeters\nexample: 95",
+                    "type": "integer",
+                    "example": 95
+                },
+                "city": {
+                    "description": "The city where the user lives\nexample: New York",
+                    "type": "string",
+                    "example": "New York"
+                },
+                "date_of_birth": {
+                    "description": "The date of birth of the user\nexample: 1990-01-01T00:00:00Z",
+                    "type": "string",
+                    "example": "1990-01-01T00:00:00Z"
+                },
+                "height": {
+                    "description": "The height of the user in centimeters\nexample: 180",
+                    "type": "integer",
+                    "example": 180
+                },
+                "hip_size": {
+                    "description": "The hip size of the user in centimeters\nexample: 90",
+                    "type": "integer",
+                    "example": 90
+                },
+                "last_name": {
+                    "description": "The last name of the user\nexample: Doe",
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "name": {
+                    "description": "The first name of the user\nexample: John",
+                    "type": "string",
+                    "example": "John"
+                },
+                "photos": {
+                    "description": "List of URLs to the user's photos\nexample: [\"https://example.com/photo1.jpg\", \"https://example.com/photo2.jpg\"]",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "https://example.com/photo1.jpg",
+                        "https://example.com/photo2.jpg"
+                    ]
+                },
+                "sex": {
+                    "description": "The gender of the user\nexample: male",
+                    "type": "string",
+                    "example": "male"
+                },
+                "user_id": {
+                    "description": "ID of the newly created user\nexample: 123",
+                    "type": "string",
+                    "example": "123"
+                },
+                "waist_size": {
+                    "description": "The waist size of the user in centimeters\nexample: 80",
+                    "type": "integer",
+                    "example": 80
+                },
+                "weight": {
+                    "description": "The weight of the user in kilograms\nexample: 75",
+                    "type": "integer",
+                    "example": 75
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
